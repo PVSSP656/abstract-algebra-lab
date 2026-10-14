@@ -1,36 +1,20 @@
 # Project Charter
 
 ## Project
-**Can Different Systems Be Mathematically the Same?**  
-TMAT302L Abstract Algebra — VIT Vellore  
-Submission deadline: **31 October 2026**
-
-## Purpose
-Create an interactive, evidence-based learning tool and supporting research paper that compares three six-element algebraic systems. The project demonstrates that surface appearance does not determine algebraic structure.
-
-## Approved scope
-The project compares exactly:
-
-1. Numbers: \(\mathbb Z_6\) under addition modulo 6.
-2. Permutations: \(\langle (1\ 2\ 3\ 4\ 5\ 6)\rangle\) under right-to-left composition.
-3. Circular movement: \(D_3\), the six symmetries of an equilateral triangle, under right-to-left composition.
-
-The approved mathematical definitions, tables, conventions, subgroup lists, and conclusions are authoritative in [MATHEMATICAL_SPECIFICATION.md](MATHEMATICAL_SPECIFICATION.md).
+**Cryptography Through Abstract Algebra** — *An Interactive Study of Three Transformation Systems*  
+Deadline: **31 October 2026**
 
 ## Research question
-How can operation tables, element orders, subgroup structure, and explicit homomorphisms determine whether visually different six-element systems are structurally equivalent?
+How does Abstract Algebra help us understand, compare, and verify different reversible transformation systems used in classical cryptography?
 
-## Intended contribution
-A rigorously checked interactive explorer that exposes evidence for group properties and structural comparison. This is an educational and software contribution; it does not claim a novel group-theory theorem.
+## Scope
+Caesar shifts modulo 26, invertible affine maps modulo 26, and position permutations in S4. The application will demonstrate encryption/decryption, composition, identity, inverse, order, cyclicity, commutativity, and structural comparison.
 
-## Deliverables
-- Tested interactive website.
-- 7–10 page research paper.
-- 10–15 minute presentation and viva preparation.
-- Reproducible mathematical verification evidence.
-
-## Scope boundaries
-Do not change the three systems or their conventions without a reviewed mathematical decision. Do not add a backend, authentication, database, or optional finite-group features before the core comparison is complete.
+## Boundary
+This is a tested educational tool, not a new cipher or secure messaging service. No backend, database, authentication, or external service is in scope.
 
 ## Definition of done
-A claim is complete only when its mathematical source, automated check, user-facing explanation, and review evidence agree.
+Documentation, mathematical engine, independent verification, UI explanation, and test evidence must agree.
+
+## Legacy
+The earlier Z6/C6/D3 comparison remains supplementary historical context only.
