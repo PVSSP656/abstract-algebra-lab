@@ -18,6 +18,8 @@ def affine_inverse(f):
 def perm_apply(p, block): return tuple(block[i] for i in p)
 def perm_compose(p, q): return tuple(q[p[i]] for i in range(len(p)))
 def perm_inverse(p):
+    if sorted(p) != list(range(len(p))):
+        raise ValueError("invalid permutation")
     out = [0] * len(p)
     for i, x in enumerate(p): out[x] = i
     return tuple(out)
@@ -80,7 +82,7 @@ else:
     raise AssertionError("Invalid affine multiplier was accepted")
 try:
     perm_inverse((0, 0, 1, 2))
-except (IndexError, AssertionError):
+except (ValueError, IndexError, AssertionError):
     pass
 print("Caesar: 26 shifts, composition and inverses verified.")
 print("Affine: 12 valid multipliers, 312 maps, composition and inverses verified.")
