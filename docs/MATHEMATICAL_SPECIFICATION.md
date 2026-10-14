@@ -1,83 +1,23 @@
 # Mathematical Specification
 
-## Conventions
-A table entry in row \(a\), column \(b\) means \(a \circ b\): apply \(b\) first and then \(a\). This convention applies to both permutation and symmetry composition.
+## Convention
+For functions, f composed with g means f(g(x)): apply g first. A transformation group helps explain reversibility but does not establish cipher security.
 
-## System A — Numbers
-\[
-\mathbb Z_6=\{0,1,2,3,4,5\},\qquad a+_6b=(a+b)\bmod6.
-\]
+## Caesar shifts
+Encode A=0 through Z=25.
+E_k(x)=(x+k) mod 26 and D_k(y)=(y-k) mod 26.
+There are 26 shifts: E_k composed with E_l = E_(k+l mod 26), identity E_0, inverse E_(-k mod 26). This is cyclic and abelian. Key 3 maps HELLO to KHOOR through the engine.
 
-| \(+_6\) | 0 | 1 | 2 | 3 | 4 | 5 |
-|---|---:|---:|---:|---:|---:|---:|
-| 0 | 0 | 1 | 2 | 3 | 4 | 5 |
-| 1 | 1 | 2 | 3 | 4 | 5 | 0 |
-| 2 | 2 | 3 | 4 | 5 | 0 | 1 |
-| 3 | 3 | 4 | 5 | 0 | 1 | 2 |
-| 4 | 4 | 5 | 0 | 1 | 2 | 3 |
-| 5 | 5 | 0 | 1 | 2 | 3 | 4 |
+## Invertible affine maps
+E_(a,b)(x)=(a*x+b) mod 26, where gcd(a,26)=1 and b is in Z_26.
+There are phi(26)=12 valid multipliers and 12*26=312 maps.
+E_(a,b) composed with E_(c,d)=E_(ac mod 26, ad+b mod 26).
+Identity E_(1,0); inverse E_(a^-1, -a^-1*b mod 26).
+Reject invalid multipliers. The affine group is non-abelian and not isomorphic to the Caesar group because its order is 312 rather than 26.
 
-Identity: \(0\). Inverse of \(k\): \(-k\bmod6\).  
-Orders: \(0:1,1:6,2:3,3:2,4:3,5:6\).  
-Generators: \(1,5\).  
-Subgroups: \(\{0\}\), \(\{0,3\}\), \(\{0,2,4\}\), \(\mathbb Z_6\).  
-It is cyclic and abelian.
+## Position permutations
+Use S4, with 24 permutations of four positions. A UI key [p1,p2,p3,p4] is one-based: output position i receives input position p_i. Thus [3,1,4,2] maps ABCD to CADB.
+Internally, out[i]=in[p[i]], and (p composed with q)[i]=q[p[i]]. The inverse restores the block. Convert letters to uppercase, preserve nonletters at original positions, permute complete alphabetic blocks of four, and leave a final incomplete alphabetic block unchanged. S4 is non-abelian and not isomorphic to C26 by order and commutativity.
 
-## System B — Permutations
-\[
-C=\langle r\rangle,\qquad r=(1\ 2\ 3\ 4\ 5\ 6).
-\]
-
-| \(\circ\) | \(e\) | \(r\) | \(r^2\) | \(r^3\) | \(r^4\) | \(r^5\) |
-|---|---|---|---|---|---|---|
-| \(e\) | \(e\) | \(r\) | \(r^2\) | \(r^3\) | \(r^4\) | \(r^5\) |
-| \(r\) | \(r\) | \(r^2\) | \(r^3\) | \(r^4\) | \(r^5\) | \(e\) |
-| \(r^2\) | \(r^2\) | \(r^3\) | \(r^4\) | \(r^5\) | \(e\) | \(r\) |
-| \(r^3\) | \(r^3\) | \(r^4\) | \(r^5\) | \(e\) | \(r\) | \(r^2\) |
-| \(r^4\) | \(r^4\) | \(r^5\) | \(e\) | \(r\) | \(r^2\) | \(r^3\) |
-| \(r^5\) | \(r^5\) | \(e\) | \(r\) | \(r^2\) | \(r^3\) | \(r^4\) |
-
-Identity: \(e\). Inverse: \((r^i)^{-1}=r^{6-i}\).  
-Orders: \(e:1,r:6,r^2:3,r^3:2,r^4:3,r^5:6\).  
-Generators: \(r,r^5\).  
-Subgroups: \(\{e\}\), \(\{e,r^3\}\), \(\{e,r^2,r^4\}\), \(C\).  
-It is cyclic and abelian.
-
-## System C — Circular movement
-\[
-D_3=\{e,r,r^2,s,sr,sr^2\},
-\]
-where \(r\) is a \(120^\circ\) rotation and \(s\) is a reflection of an equilateral triangle:
-\[
-r^3=e,\qquad s^2=e,\qquad srs=r^{-1}=r^2.
-\]
-
-| \(\cdot\) | \(e\) | \(r\) | \(r^2\) | \(s\) | \(sr\) | \(sr^2\) |
-|---|---|---|---|---|---|---|
-| \(e\) | \(e\) | \(r\) | \(r^2\) | \(s\) | \(sr\) | \(sr^2\) |
-| \(r\) | \(r\) | \(r^2\) | \(e\) | \(sr^2\) | \(s\) | \(sr\) |
-| \(r^2\) | \(r^2\) | \(e\) | \(r\) | \(sr\) | \(sr^2\) | \(s\) |
-| \(s\) | \(s\) | \(sr\) | \(sr^2\) | \(e\) | \(r\) | \(r^2\) |
-| \(sr\) | \(sr\) | \(sr^2\) | \(s\) | \(r^2\) | \(e\) | \(r\) |
-| \(sr^2\) | \(sr^2\) | \(s\) | \(sr\) | \(r\) | \(r^2\) | \(e\) |
-
-Derived products:
-\[
-r^i(sr^j)=sr^{j-i},\quad (sr^i)r^j=sr^{i+j},\quad (sr^i)(sr^j)=r^{j-i}.
-\]
-
-Identity: \(e\). Inverses: \(r^{-1}=r^2\), \((r^2)^{-1}=r\), and each reflection is self-inverse.  
-Orders: \(e:1,r:3,r^2:3,s:2,sr:2,sr^2:2\).  
-Subgroups: \(\{e\}\), \(\{e,r,r^2\}\), \(\{e,s\}\), \(\{e,sr\}\), \(\{e,sr^2\}\), \(D_3\).  
-It is non-abelian: \(rs=sr^2\ne sr=sr\).
-
-## Structural conclusions
-\[
-\phi:\mathbb Z_6\to C,\qquad \phi(k)=r^k
-\]
-is an isomorphism because it is bijective and:
-\[
-\phi(a+_6b)=r^{a+b}=r^a\circ r^b.
-\]
-
-\(D_3\) is not isomorphic to either \(\mathbb Z_6\) or \(C\): it is non-abelian and has no element of order 6. Lagrange's theorem is illustrated because every listed subgroup order divides 6.
+## Comparison
+Orders are 26, 312, and 24. Different finite orders rule out isomorphism. Caesar shifts embed in the affine group as E_(1,k), but the full groups are not isomorphic.
