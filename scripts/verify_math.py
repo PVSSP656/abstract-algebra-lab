@@ -71,7 +71,7 @@ def permutation_text(permutation, text, decrypt=False):
 # Message-level round trips and input validation.
 assert caesar_encrypt("HELLO, WORLD!", 3) == "KHOOR, ZRUOG!"
 assert caesar_encrypt(caesar_encrypt("HELLO, WORLD!", 3), -3) == "HELLO, WORLD!"
-assert affine_text((5, 8), affine_text((5, 8), "HELLO, WORLD!")) == "HELLO, WORLD!"
+assert affine_text((5, 8), affine_text((5, 8), "HELLO, WORLD!"), decrypt=True) == "HELLO, WORLD!"
 assert permutation_text((2, 0, 3, 1), "ABCD EF") == "CADB EF"
 assert permutation_text((2, 0, 3, 1), permutation_text((2, 0, 3, 1), "ABCD EF"), decrypt=True) == "ABCD EF"
 try:
